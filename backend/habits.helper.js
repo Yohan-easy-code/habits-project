@@ -62,3 +62,20 @@ export async function updateHabit(id, done) {
   await writeFile(fileURL, JSON.stringify(db, null, 2), "utf8");
   return db.habits[idx];
 }
+
+// delete habit
+export async function deleteHabit(id) {
+  const json = await readFile(fileURL, "utf8");
+  const db = JSON.parse(json);
+
+  const idx = db.habits.findIndex((h) => h.id === Number(id));
+  if (idx === -1) {
+    const e = new Error(`Habitude ${id} introuvable`);
+    e.code = "NOT_FOUND";
+    throw e;
+  }
+
+  const [removed] = db.habits.splice(idx, 1);
+  await writeFile(fileURL, JSON.stringify(db, null, 2), "utf8");
+  return removed;
+}

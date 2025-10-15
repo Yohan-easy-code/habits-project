@@ -1,4 +1,8 @@
-import { getHabitsToday, updateHabitDone } from "../src/api/habits-api";
+import {
+  deleteHabit,
+  getHabitsToday,
+  updateHabitDone,
+} from "../src/api/habits-api";
 import { HabitSquare } from "./HabitSquare";
 
 export class TodayHabits {
@@ -26,11 +30,29 @@ export class TodayHabits {
     const habitSquare = event.currentTarget;
     this.toggleDone(habitSquare.id, habitSquare.done);
   };
+
+  // 👇 nouveau handler
+  onDelete = async (event) => {
+    const el = event.currentTarget;
+    const habitSquare = this.habitsSquare?.find((h) => h.element === el);
+    if (!habitSquare) return;
+    // optionnel: confirmation
+    const ok = confirm(`Supprimer l’habitude “${habitSquare.title}” ?`);
+    if (!ok) return;
+
+    try {
+      await deleteHabit(habitSquare.id);
+      await this.refresh();
+    } catch (err) {
+      alert(err?.message || "impossible to delete habit");
+    }
+  };
   async refresh() {
     try {
       this.todayHabits = await getHabitsToday();
       this.habitsSquare?.forEach((habitSquare) => {
         habitSquare.removeEventListener("toggle", this.toggle);
+        habitSquare.element.removeEventListener("delete", this.onDelete); // 👈 nouveau
       });
       this.render();
     } catch {
@@ -59,7 +81,9 @@ export class TodayHabits {
         habit.isDoneToday
       );
       habitSquare.addEventListener("toggle", this.toggle);
+      habitSquare.element.removeEventListener("delete", this.onDelete); // 👈 nouveau
       this.element.appendChild(habitSquare.element);
+      habitSquare.element.addEventListener("delete", this.onDelete);
       return habitSquare;
     });
   }

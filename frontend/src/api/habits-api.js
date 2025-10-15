@@ -32,3 +32,11 @@ export const addHabit = (title) =>
     if (!r.ok) throw new Error("Failed to create habit");
     return r.json();
   });
+
+export const deleteHabit = (id) =>
+  fetch(`${BASE_URL}/habits/${id}`, {
+    method: "DELETE",
+  }).then((r) => {
+    if (!r.ok) throw new Error("Failed to delete habit");
+    return r.status === 204 ? null : r.json();
+  });

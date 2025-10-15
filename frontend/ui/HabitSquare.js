@@ -27,6 +27,8 @@ const createElement = (title, done) => {
   element.appendChild(titleElement);
   const doneElement = createDoneElement(done);
   element.appendChild(doneElement);
+  const deleteBtn = createDeleteButton(element);
+  element.appendChild(deleteBtn); // 👈 bouton delete
 
   return element;
 };
@@ -43,4 +45,17 @@ const createDoneElement = (done) => {
   doneElement.innerText = done ? "🟩" : "❌";
 
   return doneElement;
+};
+
+const createDeleteButton = (rootEl) => {
+  const btn = document.createElement("button");
+  btn.type = "button";
+  btn.classList.add("habit-delete");
+  btn.title = "Supprimer cette habitude";
+  btn.textContent = "🗑️";
+  btn.addEventListener("click", (e) => {
+    e.stopPropagation(); // ne pas déclencher le toggle
+    rootEl.dispatchEvent(new CustomEvent("delete"));
+  });
+  return btn;
 };
