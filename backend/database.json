@@ -1,0 +1,41 @@
+{
+  "habits": [
+    {
+      "id": 1,
+      "title": "Work 4 hours",
+      "daysDone": {
+        "2025-08-06": true,
+        "2025-08-11": true,
+        "2025-08-12": true,
+        "2025-08-14": true,
+        "2025-10-14": true,
+        "2025-10-15": false
+      }
+    },
+    {
+      "id": 2,
+      "title": "Go to sport",
+      "daysDone": {
+        "2025-08-11": true,
+        "2025-08-12": true,
+        "2025-08-14": true,
+        "2025-10-14": false,
+        "2025-10-15": false
+      }
+    },
+    {
+      "id": 3,
+      "title": "hhh",
+      "daysDone": {
+        "2025-10-15": false
+      }
+    },
+    {
+      "id": 4,
+      "title": "hjhj",
+      "daysDone": {
+        "2025-10-15": false
+      }
+    }
+  ]
+}
